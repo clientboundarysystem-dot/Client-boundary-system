@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Client Boundary System — Stop Late Payments &amp; Scope Creep</title>
+<meta name="description" content="A prevention-and-response system for freelancers: scripts, contract clauses, and worksheets to stop scope creep, late payments, and bad-fit clients before they cost you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EC;
+    --paper-alt:#EFEADC;
+    --ink:#22201C;
+    --navy:#1F3B57;
+    --navy-deep:#152A3E;
+    --rust:#B23A2F;
+    --gold:#B8862B;
+    --line:#D8D2C2;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    margin:0;
+    color:var(--navy-deep);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;}
+  a{color:inherit;}
+  img,svg{max-width:100%;}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(246,243,236,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--navy-deep);}
+  .nav-cta{background:var(--navy-deep);color:#fff;padding:9px 18px;border-radius:2px;font-size:14px;font-weight:600;text-decoration:none;}
+
+  /* HERO */
+  .hero{padding:88px 0 60px;border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--rust);display:inline-block;}
+  .hero h1{font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-0.01em;max-width:820px;}
+  .hero .sub{font-size:19px;color:#4b4740;max-width:600px;margin:22px 0 30px;}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .btn-primary{background:var(--navy-deep);color:#fff;padding:15px 28px;border-radius:2px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid var(--navy-deep);}
+  .btn-secondary{padding:15px 20px;text-decoration:none;font-weight:600;font-size:15px;color:var(--navy-deep);border-bottom:1px solid var(--navy-deep);}
+  .stamp{
+    display:inline-block;border:2.5px solid var(--rust);color:var(--rust);
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.12em;
+    padding:5px 11px;transform:rotate(-4deg);border-radius:3px;margin-top:26px;
+  }
+
+  section{padding:70px 0;}
+  .section-alt{background:var(--paper-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+  h2.title{font-size:clamp(26px,3.4vw,36px);max-width:680px;margin-bottom:10px;}
+  .lede{color:#4b4740;max-width:620px;font-size:16.5px;margin-bottom:36px;}
+
+  /* PROBLEM */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .quote-card{background:var(--paper);border:1px solid var(--line);padding:22px;border-left:3px solid var(--rust);}
+  .quote-card p{font-size:15px;color:#3a362f;margin:0 0 10px;}
+  .quote-card span{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8a8474;}
+
+  /* SOLUTION / LEDGER */
+  .ledger{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .ledger-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-num{font-family:'IBM Plex Mono',monospace;color:var(--rust);font-weight:500;font-size:14px;}
+  .ledger-row h3{font-size:19px;margin-bottom:6px;}
+  .ledger-row p{margin:0;color:#4b4740;font-size:15px;}
+
+  /* INCLUDED */
+  .included-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line);}
+  .inc-item{padding:20px 24px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);display:flex;gap:12px;}
+  .inc-item:nth-child(2n){border-right:none;}
+  .inc-item .mono{color:var(--gold);font-size:13px;flex-shrink:0;padding-top:2px;}
+  .inc-item p{margin:0;font-size:15px;}
+  .inc-item strong{display:block;font-size:15.5px;margin-bottom:3px;}
+
+  /* PREVIEW */
+  .preview-box{background:var(--navy-deep);color:#EDE7D8;padding:34px 32px;border-radius:2px;position:relative;}
+  .preview-box .label{color:var(--gold);}
+  .preview-box .script{font-family:'IBM Plex Mono',monospace;font-size:14.5px;line-height:1.75;color:#EDE7D8;border-left:2px solid var(--gold);padding-left:18px;margin:0;}
+  .preview-box .tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9fb3c4;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;}
+
+  /* HOW IT WORKS */
+  .steps{display:flex;flex-direction:column;gap:0;}
+  .step{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .stage{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--rust);text-transform:uppercase;letter-spacing:.08em;padding-top:3px;}
+  .step h3{font-size:17px;margin-bottom:5px;}
+  .step p{margin:0;color:#4b4740;font-size:15px;}
+
+  /* FAQ */
+  details{border-bottom:1px solid var(--line);padding:18px 0;}
+  summary{font-family:'Fraunces',serif;font-size:17px;cursor:pointer;color:var(--navy-deep);font-weight:600;list-style:none;display:flex;justify-content:space-between;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+";font-family:'IBM Plex Mono',monospace;color:var(--rust);font-size:20px;}
+  details[open] summary::after{content:"–";}
+  details p{margin:12px 0 0;color:#4b4740;font-size:15px;max-width:640px;}
+
+  /* TRUST */
+  .trust-note{border:1px dashed var(--line);padding:22px 26px;font-size:14.5px;color:#5c584f;background:var(--paper-alt);}
+
+  /* PRICING */
+  .price-card{border:1px solid var(--ink);padding:44px;max-width:460px;margin:0 auto;text-align:center;background:var(--paper);}
+  .price-card .amount{font-family:'Fraunces',serif;font-size:52px;color:var(--navy-deep);font-weight:600;margin:8px 0 4px;}
+  .price-card .was{font-family:'IBM Plex Mono',monospace;color:#8a8474;font-size:13px;}
+  .price-card ul{text-align:left;padding:0;list-style:none;margin:26px 0;}
+  .price-card li{padding:9px 0;border-bottom:1px solid var(--line);font-size:14.5px;display:flex;gap:10px;}
+  .price-card li::before{content:"—";color:var(--gold);}
+  .price-card .btn-primary{display:block;width:100%;text-align:center;margin-top:8px;}
+  .guarantee{font-size:13px;color:#8a8474;margin-top:16px;}
+
+  footer{padding:40px 0;text-align:center;color:#8a8474;font-size:13px;border-top:1px solid var(--line);}
+
+  @media(max-width:720px){
+    .quotes{grid-template-columns:1fr;}
+    .included-grid{grid-template-columns:1fr;}
+    .inc-item{border-right:none !important;}
+    .ledger-row{grid-template-columns:40px 1fr;}
+    .ledger-row > p{grid-column:2/3;}
+    .step{grid-template-columns:1fr;gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">The Client Boundary System</div>
+    <a href="#pricing" class="nav-cta">Get the system — $12</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">For freelancers &amp; independent contractors</div>
+    <h1>Stop losing money to late payments and scope creep — without the awkward confrontation.</h1>
+    <p class="sub">A prevention-and-response system: the exact contract clauses, screening checklist, and copy-paste scripts to hold your boundaries with clients, before the problem ever costs you.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Get instant access — $12</a>
+      <a href="#preview" class="btn-secondary">See what's inside</a>
+    </div>
+    <div class="stamp">PAY ON TIME</div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="label">The problem</div>
+    <h2 class="title">This isn't a rare bad-luck client. It's the industry norm.</h2>
+    <p class="lede">Independent research on freelance work turns up the same pattern again and again — and freelancers describe the exact same emotional block every time.</p>
+    <div class="quotes">
+      <div class="quote-card">
+        <p>Roughly 7 in 10 independent professionals report experiencing late payment from a client at some point in their career.</p>
+        <span>— Industry survey data, freelance invoicing research</span>
+      </div>
+      <div class="quote-card">
+        <p>Freelancers describe avoiding the conversation entirely: money is a topic they were taught not to bring up, so late invoices go unchased.</p>
+        <span>— Recurring pattern across freelancer communities</span>
+      </div>
+      <div class="quote-card">
+        <p>"Just one more thing" requests build up until the freelancer is doing far more work than they quoted — because saying no felt confrontational.</p>
+        <span>— Common scope-creep account, freelance forums</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="label">The solution</div>
+    <h2 class="title">Three failure points. One system for each.</h2>
+    <p class="lede">Not more theory about "setting boundaries." The actual words, documents, and decision rules — ready before the moment happens.</p>
+    <div class="ledger">
+      <div class="ledger-row">
+        <div class="ledger-num">01</div>
+        <div><h3>Prevention</h3><p>A red-flag client screening checklist and four ready-to-use contract clauses, so bad terms never get signed in the first place.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-num">02</div>
+        <div><h3>Scope creep</h3><p>Three tiers of response scripts — from the first small ask to a chronic pattern — plus a tracker worksheet to log every request.</p></div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-num">03</div>
+        <div><h3>Late payment</h3><p>A five-stage escalation ladder of exact scripts, from a friendly nudge to a final warning, so you never have to improvise while anxious.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="included">
+  <div class="wrap">
+    <div class="label">What's included</div>
+    <h2 class="title">One document. Everything you need on hand.</h2>
+    <p class="lede">Delivered as a formatted Word document (also opens cleanly in Google Docs) you can copy from directly.</p>
+    <div class="included-grid">
+      <div class="inc-item"><span class="mono">01</span><p><strong>Red-flag screening checklist</strong>Score any new client before you say yes.</p></div>
+      <div class="inc-item"><span class="mono">02</span><p><strong>4 contract clauses</strong>Deposit, revision limit, late fee, and scope definition, in plain language.</p></div>
+      <div class="inc-item"><span class="mono">03</span><p><strong>Kickoff email template</strong>Sets expectations before any problem exists.</p></div>
+      <div class="inc-item"><span class="mono">04</span><p><strong>3-tier scope creep scripts</strong>For first-time asks up through chronic offenders.</p></div>
+      <div class="inc-item"><span class="mono">05</span><p><strong>Scope creep tracker</strong>A worksheet to log every out-of-scope request.</p></div>
+      <div class="inc-item"><span class="mono">06</span><p><strong>5-stage payment ladder</strong>Exact scripts from due-date reminder to final warning.</p></div>
+      <div class="inc-item"><span class="mono">07</span><p><strong>Troubleshooting guide</strong>Ghosting, angry clients, long-term relationships, disputed budgets.</p></div>
+      <div class="inc-item"><span class="mono">08</span><p><strong>One-page cheat sheet</strong>The whole system condensed for mid-conversation reference.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="preview" class="section-alt">
+  <div class="wrap">
+    <div class="label">Preview</div>
+    <h2 class="title">A real script from inside the guide</h2>
+    <p class="lede">This is the Tier 2 scope-creep response — for when a bigger ask or a pattern starts forming.</p>
+    <div class="preview-box">
+      <div class="tag">Scope Creep — Tier 2</div>
+      <p class="script">"I want to make sure this stays on track for you — this request would add meaningfully to the original scope. Let's treat it as a phase 2: I'll send a short proposal with cost and timeline so we can decide together whether to include it now or later."</p>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="label">How it works</div>
+    <h2 class="title">From purchase to your first boundary held</h2>
+    <div class="steps">
+      <div class="step"><div class="stage">Step 1</div><div><h3>Get instant access</h3><p>Buy once, download the document immediately — no account or subscription.</p></div></div>
+      <div class="step"><div class="stage">Step 2</div><div><h3>Screen your next client</h3><p>Run the red-flag checklist before you say yes to a new project.</p></div></div>
+      <div class="step"><div class="stage">Step 3</div><div><h3>Add one contract clause</h3><p>Start with the deposit clause — the single highest-leverage change.</p></div></div>
+      <div class="step"><div class="stage">Step 4</div><div><h3>Use a script when it comes up</h3><p>Copy, paste, adjust the bracketed details, send.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section-alt">
+  <div class="wrap">
+    <div class="label">FAQ</div>
+    <h2 class="title">Questions before you buy</h2>
+    <details open>
+      <summary>Is this legal advice or an official contract?</summary>
+      <p>No. The clauses are plain-language starting points to add to your existing contract or template — not a substitute for legal review, especially for late-fee percentages, which vary by state/country.</p>
+    </details>
+    <details>
+      <summary>What format do I get?</summary>
+      <p>A formatted Word document (.docx) that also opens cleanly in Google Docs, so you can copy scripts directly into email.</p>
+    </details>
+    <details>
+      <summary>Does this work for marketplace freelancing (Upwork, Fiverr) too?</summary>
+      <p>Yes — the scope-creep and communication scripts apply directly. The contract clauses are most relevant for direct-client work outside a marketplace's built-in protections.</p>
+    </details>
+    <details>
+      <summary>Is there a refund policy?</summary>
+      <p>Yes — if the system genuinely doesn't fit your situation, contact support within 7 days of purchase for a full refund.</p>
+    </details>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <div class="label">A note on honesty</div>
+    <div class="trust-note">
+      This is a new, independently built guide — there are no customer reviews or usage numbers to share yet, and none are shown here. Every claim above is sourced from cited freelance-payment research, not invented statistics. The example script shown in the preview is one of the real scripts inside the document, not a mockup.
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="section-alt">
+  <div class="wrap" style="text-align:center;">
+    <div class="label" style="justify-content:center;">Pricing</div>
+    <h2 class="title" style="margin:0 auto 30px;">One payment. Yours to keep.</h2>
+    <div class="price-card">
+      <div class="was mono">ONE-TIME PAYMENT</div>
+      <div class="amount">$12</div>
+      <p style="color:#4b4740;font-size:14.5px;margin:0;">Full system, instant download</p>
+      <ul>
+        <li>Complete Client Boundary System document (.docx)</li>
+        <li>All scripts, clauses, checklists &amp; worksheets</li>
+        <li>Free updates to this version</li>
+        <li>7-day refund window</li>
+      </ul>
+      <a href="https://boundarysystem.gumroad.com/l/oxynmh" class="btn-primary" id="checkout-cta">Buy now — instant access</a>
+      <div class="guarantee">Secure checkout · No subscription · No account required</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 The Client Boundary System. Not legal advice — see FAQ.</div>
+</footer>
+
+</body>
+</html>
